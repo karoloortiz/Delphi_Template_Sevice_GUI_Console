@@ -6,10 +6,8 @@ Windows service, GUI, console in same application.
 - Dependencies:
   - https://github.com/karoloortiz/Delphi_Utils_Library.git
  
-- AFTER CLONING REPO:
-  - cloning submodules:
-    - git submodule init 
-    - git submodule update
+- CLONING REPO:
+  - git clone https://github.com/karoloortiz/Delphi_Template_Sevice_GUI_Console.git --recurse-submodules
 
 - USAGE:
   - install install service

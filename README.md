@@ -3,19 +3,19 @@
 Template for Delphi applications
 Windows service, GUI, console in same application.
 
--Dependencies:
+- Dependencies:
   - https://github.com/karoloortiz/Delphi_Utils_Library.git
  
--AFTER CLONING REPO:
-  -cloning submodules:
+- AFTER CLONING REPO:
+  - cloning submodules:
     - git submodule init 
     - git submodule update
 
--USAGE:
-  -install install service
-  -uninstall uninstall service
-  -help print help
+- USAGE:
+  - install install service
+  - uninstall uninstall service
+  - help print help
 
--INFO
-  -you can use as GUI or windows service
-  -support for Windows Event Viewer
+- INFO
+  - support for Windows Event Viewer
+  - you can use the application in GUI mode or as windows service

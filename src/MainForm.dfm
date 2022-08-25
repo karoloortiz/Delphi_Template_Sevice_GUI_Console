@@ -1,0 +1,49 @@
+object MyForm: TMyForm
+  Left = 0
+  Top = 0
+  Caption = 'MyForm'
+  ClientHeight = 245
+  ClientWidth = 311
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  PixelsPerInch = 96
+  TextHeight = 13
+  object status_lbl: TLabel
+    Left = 35
+    Top = 25
+    Width = 81
+    Height = 33
+    Caption = 'status:'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -27
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+  end
+  object start_stop_btn: TButton
+    Left = 95
+    Top = 95
+    Width = 111
+    Height = 25
+    Caption = 'start_stop_btn'
+    TabOrder = 0
+    OnClick = start_stop_btnClick
+  end
+  object resume_pause_btn: TButton
+    Left = 95
+    Top = 140
+    Width = 111
+    Height = 25
+    Caption = 'start_stop_btn'
+    TabOrder = 1
+    OnClick = resume_pause_btnClick
+  end
+end

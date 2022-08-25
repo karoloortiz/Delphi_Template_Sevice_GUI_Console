@@ -1,0 +1,3 @@
+[submodule "src/boundaries/KLib/Delphi_Utils_Library"]
+	path = src/boundaries/KLib/Delphi_Utils_Library
+	url = https://github.com/karoloortiz/Delphi_Utils_Library.git

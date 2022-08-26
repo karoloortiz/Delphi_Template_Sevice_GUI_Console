@@ -10,9 +10,14 @@ Windows service, GUI, console in same application.
   - git clone https://github.com/karoloortiz/Delphi_Template_Sevice_GUI_Console.git --recurse-submodules
 
 - USAGE:
-  - install install service
-  - uninstall uninstall service
-  - help print help
+  - Console mode:
+    - install service -> Project.exe --install
+    - uninstall service ->  Project.exe --uninstall
+    - print help >  Project.exe --help
+  - GUI mode:
+    - just open the exe
+  - Windows service mode:
+    - install service with console mode
 
 - INFO
   - support for Windows Event Viewer

@@ -3,6 +3,7 @@ unit ShellParams;
 interface
 
 uses
+  Env,
   KLib.Constants;
 
 const
@@ -12,19 +13,16 @@ const
 
   HELP_PARAMETER_NAME = '--help';
 
-  CHECK_PARAMETER_NAME = '--check'; //<---  only an example to pass "value"
-
   HELP_MESSAGE =
     sLineBreak +
-    'MY PROGRAM' + sLineBreak +
+    APPLICATION_NAME + sLineBreak +
     'Usage:' + sLineBreak +
     sLineBreak +
-    '--install install service' + sLineBreak +
-    '--uninstall uninstall service' + sLineBreak +
-    '--silent silent mode' + sLineBreak +
+    '--install [service name]' + #9 + 'install service' + sLineBreak +
+    '--uninstall [service name]' + #9 + 'uninstall service' + sLineBreak +
+    '--silent' + #9#9#9 + 'silent mode' + sLineBreak +
     sLineBreak +
-    '--help print help' + sLineBreak +
-    '--check value <---  only an example to pass "value"';
+    '--help' + #9#9#9#9 + 'print help';
 
 type
   TShellParams = record
@@ -35,7 +33,7 @@ type
 
     help: boolean;
 
-    check: string; //<---  only an example to pass "value"
+    serviceName: string;
     procedure read;
     function getAsString: string;
     procedure setDefault;
@@ -49,7 +47,7 @@ const
 
     help: false;
 
-    check: EMPTY_STRING; //<---  only an example to pass "value"
+    serviceName: SERVICE_NAME;
   );
 
 function getShellParameters: TShellParams;
@@ -60,9 +58,10 @@ var
 implementation
 
 uses
+  KLib.Utils,
   System.SysUtils;
 
-function getValueOfParameter(indexParameter: integer): string; forward;
+function _getValueOfParameter(parameterName: string): string; forward;
 
 procedure TShellParams.read;
 begin
@@ -78,17 +77,15 @@ var
   _silent: string;
 
   _help: string;
-
-  _check_parameter: string;
 begin
   if install <> false then
   begin
-    _install := INSTALL_PARAMETER_NAME;
+    _install := INSTALL_PARAMETER_NAME + ' ' + serviceName;
   end;
 
   if uninstall <> false then
   begin
-    _uninstall := UNINSTALL_PARAMETER_NAME;
+    _uninstall := UNINSTALL_PARAMETER_NAME + ' ' + serviceName;
   end;
 
   if silent <> false then
@@ -101,12 +98,7 @@ begin
     _help := HELP_PARAMETER_NAME;
   end;
 
-  if check <> EMPTY_STRING then
-  begin
-    _check_parameter := CHECK_PARAMETER_NAME + ' ' + check;
-  end;
-
-  _result := _install + ' ' + _uninstall + ' ' + _silent + ' ' + _help + ' ' + _check_parameter;
+  _result := _install + ' ' + _uninstall + ' ' + _silent + ' ' + _help;
   _result := trim(_result);
 
   Result := _result;
@@ -114,7 +106,7 @@ end;
 
 procedure TShellParams.setDefault;
 begin
-  self := DEFAULT_SHELL_PARAMS;
+  Self := DEFAULT_SHELL_PARAMS;
 end;
 
 function getShellParameters: TShellParams;
@@ -131,10 +123,22 @@ begin
     if (_parameterName = INSTALL_PARAMETER_NAME) then
     begin
       shellParameters.install := true;
+
+      _parameterValue := _getValueOfParameter(INSTALL_PARAMETER_NAME);
+      if _parameterValue <> EMPTY_STRING then
+      begin
+        shellParameters.serviceName := _parameterValue;
+      end;
     end
     else if (_parameterName = UNINSTALL_PARAMETER_NAME) then
     begin
       shellParameters.uninstall := true;
+
+      _parameterValue := _getValueOfParameter(UNINSTALL_PARAMETER_NAME);
+      if _parameterValue <> EMPTY_STRING then
+      begin
+        shellParameters.serviceName := _parameterValue;
+      end;
     end
     else if (_parameterName = SILENT_PARAMETER_NAME) then
     begin
@@ -143,43 +147,30 @@ begin
     else if (_parameterName = HELP_PARAMETER_NAME) then
     begin
       shellParameters.help := true;
-    end
-    else if (_parameterName = CHECK_PARAMETER_NAME) then
-    begin
-      _parameterValue := getValueOfParameter(i);
-      if _parameterValue <> '' then
-      begin
-        shellParameters.check := _parameterValue;
-      end;
     end;
   end;
 
   Result := shellParameters;
 end;
 
-function getValueOfParameter(indexParameter: integer): string;
+function _getValueOfParameter(parameterName: string): string;
 var
   _result: string;
   _value: string;
-  _indexValue: integer;
 begin
   _result := '';
 
-  _indexValue := indexParameter + 1;
-  if _indexValue <= ParamCount then
+  _value := getValueOfParameter(parameterName);
+  if
+    (_value <> INSTALL_PARAMETER_NAME)
+    and (_value <> UNINSTALL_PARAMETER_NAME)
+    and (_value <> SILENT_PARAMETER_NAME)
+    and (_value <> HELP_PARAMETER_NAME)
+  then
   begin
-    _value := ParamStr(_indexValue);
-    if
-      (_value <> INSTALL_PARAMETER_NAME)
-      and (_value <> UNINSTALL_PARAMETER_NAME)
-      and (_value <> SILENT_PARAMETER_NAME)
-      and (_value <> HELP_PARAMETER_NAME)
-      and (_value <> CHECK_PARAMETER_NAME)
-    then
-    begin
-      _result := _value;
-    end;
+    _result := _value;
   end;
+
   Result := _result;
 end;
 

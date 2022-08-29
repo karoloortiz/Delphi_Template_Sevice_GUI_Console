@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls,
-  KLib.MyThread, KLib.Types;
+  KLib.MyThread, KLib.Types, Vcl.ExtCtrls;
 
 const
   WM_STATUS_CHANGED = WM_USER + 102;
@@ -15,10 +15,19 @@ type
     status_lbl: TLabel;
     start_stop_btn: TButton;
     resume_pause_btn: TButton;
+    install_service_btn: TButton;
+    _uninstall_service_btn: TButton;
+    _service_manager_pnl: TPanel;
+    service_status: TLabel;
+    _service_name_lbl: TLabel;
+    _workThread_manager_pnl: TPanel;
+    service_name: TEdit;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure start_stop_btnClick(Sender: TObject);
     procedure resume_pause_btnClick(Sender: TObject);
+    procedure install_service_btnClick(Sender: TObject);
+    procedure _uninstall_service_btnClick(Sender: TObject);
   private
     workerThread: TMyThread;
     _status: string;
@@ -37,7 +46,7 @@ implementation
 
 uses
   Application,
-  KLib.Windows, KLib.Constants;
+  KLib.Windows, KLib.Constants, KLib.MyService.Utils;
 
 procedure TMyForm.FormCreate(Sender: TObject);
 var
@@ -65,6 +74,16 @@ begin
     Enabled := false;
     Caption := 'resume';
   end;
+end;
+
+procedure TMyForm.install_service_btnClick(Sender: TObject);
+begin
+  KLib.MyService.Utils.installService(false, service_name.Text);
+end;
+
+procedure TMyForm._uninstall_service_btnClick(Sender: TObject);
+begin
+  KLib.MyService.Utils.uninstallService(false, service_name.Text);
 end;
 
 procedure TMyForm.start_stop_btnClick(Sender: TObject);

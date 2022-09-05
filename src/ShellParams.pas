@@ -174,4 +174,8 @@ begin
   Result := _result;
 end;
 
+initialization
+
+ApplicationShellParams.read;
+
 end.

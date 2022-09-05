@@ -11,14 +11,16 @@ Windows service, GUI, console in same application.
 
 - USAGE:
   - Console mode:
-    - install service -> Project.exe --install
-    - uninstall service ->  Project.exe --uninstall
+    - install service -> Project.exe --install [service_name] [--silent]
+    - uninstall service ->  Project.exe --uninstall [service_name] [--silent]
     - print help >  Project.exe --help
   - GUI mode:
     - just open the exe
   - Windows service mode:
-    - install service with console mode
+    - install service with gui mode or console mode
 
 - INFO
   - support for Windows Event Viewer
-  - you can use the application in GUI mode or as windows service
+  - support services with custom names
+  - support custom service params
+  - you can use the application in GUI mode, console mode or as windows service

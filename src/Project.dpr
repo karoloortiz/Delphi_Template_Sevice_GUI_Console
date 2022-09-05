@@ -39,75 +39,59 @@ uses
 {$r *.res}
 
 
-var
-  guiModeEnabled: boolean;
-  serviceModeEnabled: boolean;
-  _runServiceParams: TRunServiceParams;
-
 begin
-  ApplicationShellParams.read;
-  serviceModeEnabled := checkIfCurrentProcessIsAServiceProcess;
-  guiModeEnabled := ParamCount = 0;
-
-  if (guiModeEnabled) then
-  begin
+  case executionMode of
+    TExecutionMode.gui:
+      begin
 {$ifdef DEBUG}
-    ReportMemoryLeaksOnShutdown := true;
+        ReportMemoryLeaksOnShutdown := true;
 {$endif}
-    Vcl.Forms.Application.Initialize;
-    Vcl.Forms.Application.CreateForm(TMyForm, MyForm);
-    Vcl.Forms.Application.MainFormOnTaskbar := True;
-    Vcl.Forms.Application.Run;
-  end
-  else if serviceModeEnabled then
-  begin
-    _runServiceParams.clear;
-    with _runServiceParams do
-    begin
-      executorMethod := myJob;
-      eventLogDisabled := false;
-      rejectCallback := procedure(msg: string)
-        var
-          _fileName: string;
-          _logMessage: string;
+        Vcl.Forms.Application.Initialize;
+        Vcl.Forms.Application.CreateForm(TMyForm, MyForm);
+        Vcl.Forms.Application.MainFormOnTaskbar := True;
+        Vcl.Forms.Application.Run;
+      end;
+    TExecutionMode.service:
+      begin
+        runService(runServiceParams);
+        //or inherited MODE
+        //    if not Vcl.SvcMgr.Application.DelayInitialize or Vcl.SvcMgr.Application.Installing then
+        //    begin
+        //      Vcl.SvcMgr.Application.Initialize;
+        //    end;
+        //    Vcl.SvcMgr.Application.CreateForm(TMyMainService, MyService);
+        //    Vcl.SvcMgr.Application.Run;
+      end;
+    TExecutionMode.console:
+      begin
+        myAttachConsole;
+
+        if ApplicationShellParams.serviceName <> EMPTY_STRING then
         begin
-          _fileName := getCombinedPathWithCurrentDir('log.txt');
-          _logMessage := 'ERROR -> ' + msg;
-          appendToFile(_fileName, _logMessage, FORCE_CREATION);
+          installServiceParams.serviceName := ApplicationShellParams.serviceName;
         end;
-      applicationName := APPLICATION_NAME;
-      installParameterName := INSTALL_PARAMETER_NAME;
-    end;
-    runService(_runServiceParams);
-    //or inherited MODE
-    //    if not Vcl.SvcMgr.Application.DelayInitialize or Vcl.SvcMgr.Application.Installing then
-    //    begin
-    //      Vcl.SvcMgr.Application.Initialize;
-    //    end;
-    //    Vcl.SvcMgr.Application.CreateForm(TMyMainService, MyService);
-    //    Vcl.SvcMgr.Application.Run;
-  end
-  else
-  begin
-    myAttachConsole;
-    if ApplicationShellParams.install then
-    begin
-      KLib.MyService.Utils.installService(ApplicationShellParams.silent, ApplicationShellParams.serviceName,
-        SERVICE_NAME_DESCRIPTION, APPLICATION_NAME, INSTALL_PARAMETER_NAME);
+        //################---CUSTOM PARAMS---################
+        //      if ApplicationShellParams.customParams then
+        //      begin
+        //         installServiceParams.customParameters :=  ApplicationShellParams.customParams;
+        //      end;
+        if ApplicationShellParams.install then
+        begin
+          KLib.MyService.Utils.installService(installServiceParams);
 
-      Writeln('Service installed.');
-    end
-    else if ApplicationShellParams.uninstall then
-    begin
-      KLib.MyService.Utils.uninstallService(ApplicationShellParams.silent, ApplicationShellParams.serviceName,
-        SERVICE_NAME_DESCRIPTION, APPLICATION_NAME, INSTALL_PARAMETER_NAME);
+          Writeln('Service installed.');
+        end
+        else if ApplicationShellParams.uninstall then
+        begin
+          KLib.MyService.Utils.uninstallService(installServiceParams);
 
-      Writeln('Service uninstalled.');
-    end
-    else if ApplicationShellParams.help then
-    begin
-      Writeln(HELP_MESSAGE);
-    end;
+          Writeln('Service uninstalled.');
+        end
+        else if ApplicationShellParams.help then
+        begin
+          Writeln(HELP_MESSAGE);
+        end;
+      end;
   end;
 
 end.

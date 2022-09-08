@@ -51,7 +51,7 @@ implementation
 
 
 uses
-  Application, Env,
+  Application, Application.Env,
   KLib.Windows, KLib.Constants, KLib.MyService.Utils, KLib.WindowsService;
 
 procedure TMyForm.FormCreate(Sender: TObject);

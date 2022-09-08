@@ -22,8 +22,6 @@ object MyForm: TMyForm
     Height = 320
     Align = alClient
     TabOrder = 0
-    ExplicitWidth = 476
-    ExplicitHeight = 245
     object service_status: TLabel
       Left = 25
       Top = 140
@@ -130,8 +128,6 @@ object MyForm: TMyForm
     Height = 320
     Align = alRight
     TabOrder = 1
-    ExplicitLeft = 476
-    ExplicitHeight = 245
     object status_lbl: TLabel
       Left = 35
       Top = 25

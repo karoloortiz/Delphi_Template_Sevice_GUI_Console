@@ -1,4 +1,4 @@
-unit Env;
+unit Application.Env;
 
 interface
 
@@ -20,7 +20,7 @@ var
 implementation
 
 uses
-  Application, ShellParams,
+  Application, Application.ShellParams,
   KLib.Windows, KLib.Utils;
 
 function getExecutionMode: TExecutionMode;

@@ -7,10 +7,10 @@ uses
   Vcl.Forms,
   MainForm in 'MainForm.pas' {MyForm} ,
   Vcl.SvcMgr,
-  ShellParams in 'ShellParams.pas',
-  Application in 'Application\domain\Application.pas',
-  Env in 'Env.pas',
   MainService in 'MainService.pas' {MyMainService: TService} ,
+  Application in 'Application\domain\Application.pas',
+  Application.ShellParams in 'Application\domain\Application.ShellParams.pas',
+  Application.Env in 'Application\domain\Application.Env.pas',
   KLib.Constants in 'boundaries\KLib\Delphi_Utils_Library\KLib.Constants.pas',
   KLib.Generic in 'boundaries\KLib\Delphi_Utils_Library\KLib.Generic.pas',
   KLib.Graphics in 'boundaries\KLib\Delphi_Utils_Library\KLib.Graphics.pas',
@@ -34,7 +34,8 @@ uses
   KLib.MyThread in 'boundaries\KLib\Delphi_Utils_Library\KLib.MyThread.pas',
   KLib.MyService in 'boundaries\KLib\Delphi_Utils_Library\KLib.MyService.pas' {MyService: TService} ,
   KLib.MyServiceApplication in 'boundaries\KLib\Delphi_Utils_Library\KLib.MyServiceApplication.pas',
-  KLib.MyService.Utils in 'boundaries\KLib\Delphi_Utils_Library\KLib.MyService.Utils.pas';
+  KLib.MyService.Utils in 'boundaries\KLib\Delphi_Utils_Library\KLib.MyService.Utils.pas',
+  KLib.GenericIni in 'boundaries\KLib\Delphi_Utils_Library\KLib.GenericIni.pas';
 
 {$r *.res}
 

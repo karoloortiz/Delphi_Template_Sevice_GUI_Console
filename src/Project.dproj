@@ -128,13 +128,13 @@
         <DCCReference Include="MainForm.pas">
             <Form>MyForm</Form>
         </DCCReference>
-        <DCCReference Include="ShellParams.pas"/>
-        <DCCReference Include="Application\domain\Application.pas"/>
-        <DCCReference Include="Env.pas"/>
         <DCCReference Include="MainService.pas">
             <Form>MyMainService</Form>
             <DesignClass>TService</DesignClass>
         </DCCReference>
+        <DCCReference Include="Application\domain\Application.pas"/>
+        <DCCReference Include="Application\domain\Application.ShellParams.pas"/>
+        <DCCReference Include="Application\domain\Application.Env.pas"/>
         <DCCReference Include="boundaries\KLib\Delphi_Utils_Library\KLib.Constants.pas"/>
         <DCCReference Include="boundaries\KLib\Delphi_Utils_Library\KLib.Generic.pas"/>
         <DCCReference Include="boundaries\KLib\Delphi_Utils_Library\KLib.Graphics.pas"/>
@@ -162,6 +162,7 @@
         </DCCReference>
         <DCCReference Include="boundaries\KLib\Delphi_Utils_Library\KLib.MyServiceApplication.pas"/>
         <DCCReference Include="boundaries\KLib\Delphi_Utils_Library\KLib.MyService.Utils.pas"/>
+        <DCCReference Include="boundaries\KLib\Delphi_Utils_Library\KLib.GenericIni.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -207,9 +208,14 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployClass Name="Android_LauncherIcon36">
-                    <Platform Name="Android">
-                        <RemoteDir>res\drawable-ldpi</RemoteDir>
+                <DeployClass Name="iPad_Launch1536x2048">
+                    <Platform Name="iOSDevice64">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice32">
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
@@ -918,17 +924,6 @@
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
-                <DeployClass Name="iPad_Launch1536x2048">
-                    <Platform Name="iOSDevice64">
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="iOSSimulator">
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="iOSDevice32">
-                        <Operation>1</Operation>
-                    </Platform>
-                </DeployClass>
                 <DeployClass Name="Android_NotificationIcon36">
                     <Platform Name="Android">
                         <RemoteDir>res\drawable-hdpi</RemoteDir>
@@ -936,6 +931,12 @@
                     </Platform>
                     <Platform Name="Android64">
                         <RemoteDir>res\drawable-hdpi</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="Android_LauncherIcon36">
+                    <Platform Name="Android">
+                        <RemoteDir>res\drawable-ldpi</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>

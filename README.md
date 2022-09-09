@@ -13,7 +13,7 @@ Windows service, GUI, console in same application.
   - Console mode:
     - install service -> Project.exe --install [service_name] [--silent]
     - uninstall service ->  Project.exe --uninstall [service_name] [--silent]
-    - print help >  Project.exe --help
+    - print help >  Project.exe --help or Project.exe -h
   - GUI mode:
     - just open the exe
   - Windows service mode:

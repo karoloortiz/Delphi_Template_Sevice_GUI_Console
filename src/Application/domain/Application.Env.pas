@@ -31,7 +31,7 @@ var
   _guiModeEnabled: boolean;
 begin
   _serviceModeEnabled := checkIfCurrentProcessIsAServiceProcess;
-  _guiModeEnabled := ParamCount = 0;
+  _guiModeEnabled := myParamCount = 0;
   if _serviceModeEnabled then
   begin
     executionMode := TExecutionMode.service;

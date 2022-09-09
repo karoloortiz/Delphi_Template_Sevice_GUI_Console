@@ -35,7 +35,9 @@ uses
   KLib.MyService in 'boundaries\KLib\Delphi_Utils_Library\KLib.MyService.pas' {MyService: TService} ,
   KLib.MyServiceApplication in 'boundaries\KLib\Delphi_Utils_Library\KLib.MyServiceApplication.pas',
   KLib.MyService.Utils in 'boundaries\KLib\Delphi_Utils_Library\KLib.MyService.Utils.pas',
-  KLib.GenericIni in 'boundaries\KLib\Delphi_Utils_Library\KLib.GenericIni.pas';
+  KLib.Generic.Ini in 'boundaries\KLib\Delphi_Utils_Library\KLib.Generic.Ini.pas',
+  KLib.Generic.ShellParams in 'boundaries\KLib\Delphi_Utils_Library\KLib.Generic.ShellParams.pas',
+  KLib.Generic.Attributes in 'boundaries\KLib\Delphi_Utils_Library\KLib.Generic.Attributes.pas';
 
 {$r *.res}
 

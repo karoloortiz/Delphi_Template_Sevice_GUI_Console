@@ -60,6 +60,7 @@ begin
   regkeyDescription := SERVICE_NAME_DESCRIPTION;
   applicationName := APPLICATION_NAME;
   installParameterName := INSTALL_PARAMETER_NAME;
+  defaults_file := EMPTY_STRING;
   customParameters := EMPTY_STRING;
 end;
 

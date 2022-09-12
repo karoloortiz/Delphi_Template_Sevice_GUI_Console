@@ -9,8 +9,9 @@ uses
   Vcl.SvcMgr,
   MainService in 'MainService.pas' {MyMainService: TService} ,
   Application in 'Application\domain\Application.pas',
-  Application.ShellParams in 'Application\domain\Application.ShellParams.pas',
-  Application.Env in 'Application\domain\Application.Env.pas',
+  Application.ShellParams in 'Application\domain\Application.ShellParams.pas', //first in initialization order
+  Application.Env in 'Application\domain\Application.Env.pas', //second in initialization order
+  Application.Settings in 'Application\domain\Application.Settings.pas', //third in initialization order
   KLib.Constants in 'boundaries\KLib\Delphi_Utils_Library\KLib.Constants.pas',
   KLib.Generic in 'boundaries\KLib\Delphi_Utils_Library\KLib.Generic.pas',
   KLib.Graphics in 'boundaries\KLib\Delphi_Utils_Library\KLib.Graphics.pas',
@@ -92,6 +93,11 @@ begin
         end
         else if ApplicationShellParams.help then
         begin
+          Writeln(HELP_MESSAGE);
+        end
+        else
+        begin
+          Writeln('Invalid option.');
           Writeln(HELP_MESSAGE);
         end;
       end;

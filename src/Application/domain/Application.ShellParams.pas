@@ -10,6 +10,7 @@ const
   INSTALL_PARAMETER_NAME = '--install';
   UNINSTALL_PARAMETER_NAME = '--uninstall';
   SILENT_PARAMETER_NAME = '--silent';
+  DEFAULTS_FILE_PARAMETER_NAME = '--defaults-file';
 
   HELP_PARAMETER_NAME = '--help';
   HELP_PARAMETER_SHORT_NAME = '-h';
@@ -22,6 +23,7 @@ const
     '--install [service name]' + #9 + 'install service' + sLineBreak +
     '--uninstall [service name]' + #9 + 'uninstall service' + sLineBreak +
     '--silent' + #9#9#9 + 'silent mode' + sLineBreak +
+    '--defaults-file path of settings file' + sLineBreak +
     sLineBreak +
     '--help or -h' + #9#9#9#9 + 'print help';
 
@@ -52,6 +54,13 @@ type
       DefaultValueAttribute('false')
       ]
     silent: boolean;
+
+    [
+      ParamNameAttribute(DEFAULTS_FILE_PARAMETER_NAME),
+      DefaultValueAttribute('settings.ini'),
+      SettingStringDequoteAttribute
+      ]
+    defaults_file: string;
 
     [
       ParamNameAttribute(HELP_PARAMETER_NAME),

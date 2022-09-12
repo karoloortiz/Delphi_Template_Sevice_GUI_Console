@@ -25,6 +25,8 @@ type
     application_service_check: TCheckBox;
     customParams: TEdit;
     _customParams_lbl: TLabel;
+    defaults_file: TEdit;
+    _defaults_file_lbl: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure start_stop_btnClick(Sender: TObject);
@@ -91,6 +93,7 @@ begin
   begin
     silent := false;
     serviceName := service_name.Text;
+    defaults_file := Self.defaults_file.Text;
     customParameters := customParams.Text;
   end;
 

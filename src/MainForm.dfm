@@ -2,7 +2,7 @@ object MyForm: TMyForm
   Left = 0
   Top = 0
   Caption = 'MyForm'
-  ClientHeight = 320
+  ClientHeight = 340
   ClientWidth = 921
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -19,12 +19,13 @@ object MyForm: TMyForm
     Left = 0
     Top = 0
     Width = 595
-    Height = 320
+    Height = 340
     Align = alClient
     TabOrder = 0
+    ExplicitHeight = 320
     object service_status: TLabel
       Left = 25
-      Top = 140
+      Top = 165
       Width = 170
       Height = 33
       Caption = 'service status:'
@@ -50,7 +51,7 @@ object MyForm: TMyForm
     end
     object _customParams_lbl: TLabel
       Left = 25
-      Top = 85
+      Top = 100
       Width = 239
       Height = 33
       Caption = 'custom parameters:'
@@ -61,9 +62,22 @@ object MyForm: TMyForm
       Font.Style = []
       ParentFont = False
     end
+    object _defaults_file_lbl: TLabel
+      Left = 25
+      Top = 65
+      Width = 147
+      Height = 33
+      Caption = 'defaults file:'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -27
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+    end
     object install_service_btn: TButton
       Left = 25
-      Top = 225
+      Top = 250
       Width = 90
       Height = 25
       Caption = 'install service'
@@ -73,7 +87,7 @@ object MyForm: TMyForm
     end
     object uninstall_service_btn: TButton
       Left = 24
-      Top = 265
+      Top = 290
       Width = 92
       Height = 25
       Caption = 'uninstall service'
@@ -97,7 +111,7 @@ object MyForm: TMyForm
     end
     object application_service_check: TCheckBox
       Left = 25
-      Top = 185
+      Top = 210
       Width = 246
       Height = 17
       Caption = 'Manage only application services'
@@ -108,7 +122,7 @@ object MyForm: TMyForm
     end
     object customParams: TEdit
       Left = 280
-      Top = 85
+      Top = 100
       Width = 236
       Height = 32
       Font.Charset = DEFAULT_CHARSET
@@ -120,14 +134,29 @@ object MyForm: TMyForm
       TabOrder = 4
       OnChange = service_nameChange
     end
+    object defaults_file: TEdit
+      Left = 280
+      Top = 65
+      Width = 236
+      Height = 32
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -20
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 5
+      OnChange = service_nameChange
+    end
   end
   object _workThread_manager_pnl: TPanel
     Left = 595
     Top = 0
     Width = 326
-    Height = 320
+    Height = 340
     Align = alRight
     TabOrder = 1
+    ExplicitHeight = 320
     object status_lbl: TLabel
       Left = 35
       Top = 25

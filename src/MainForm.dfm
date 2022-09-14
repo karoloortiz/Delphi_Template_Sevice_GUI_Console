@@ -12,7 +12,6 @@ object MyForm: TMyForm
   Font.Style = []
   OldCreateOrder = False
   OnCreate = FormCreate
-  OnDestroy = FormDestroy
   PixelsPerInch = 96
   TextHeight = 13
   object _service_manager_pnl: TPanel
@@ -22,7 +21,6 @@ object MyForm: TMyForm
     Height = 340
     Align = alClient
     TabOrder = 0
-    ExplicitHeight = 320
     object service_status: TLabel
       Left = 25
       Top = 165
@@ -156,7 +154,6 @@ object MyForm: TMyForm
     Height = 340
     Align = alRight
     TabOrder = 1
-    ExplicitHeight = 320
     object status_lbl: TLabel
       Left = 35
       Top = 25

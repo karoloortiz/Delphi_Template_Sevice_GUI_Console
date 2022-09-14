@@ -5,7 +5,8 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls,
-  KLib.MyThread, KLib.Types, Vcl.ExtCtrls;
+  KLib.ServiceAppPort,
+  KLib.Types, Vcl.ExtCtrls;
 
 const
   WM_STATUS_CHANGED = WM_USER + 102;
@@ -28,7 +29,6 @@ type
     defaults_file: TEdit;
     _defaults_file_lbl: TLabel;
     procedure FormCreate(Sender: TObject);
-    procedure FormDestroy(Sender: TObject);
     procedure start_stop_btnClick(Sender: TObject);
     procedure resume_pause_btnClick(Sender: TObject);
     procedure install_service_btnClick(Sender: TObject);
@@ -36,12 +36,12 @@ type
     procedure application_service_checkClick(Sender: TObject);
     procedure service_nameChange(Sender: TObject);
   private
-    workerThread: TMyThread;
-    _statusWorkThread: string;
+    app: IServiceAppPort;
+    _statusGuiApp: string;
     procedure onStatusChanged(var Msg: TMessage); message WM_STATUS_CHANGED;
     procedure set_serviceStatus(installed: boolean);
   public
-    { Public declarations }
+
   end;
 
 var
@@ -53,8 +53,8 @@ implementation
 
 
 uses
-  Application, Application.Env,
-  KLib.Windows, KLib.Constants, KLib.MyService.Utils, KLib.WindowsService;
+  App, App.Env,
+  KLib.Windows, KLib.Constants, KLib.MyService.Utils, KLib.WindowsService, KLib.Utils;
 
 procedure TMyForm.FormCreate(Sender: TObject);
 var
@@ -67,10 +67,14 @@ begin
     end;
   _onChangeStatus := procedure(value: string)
     begin
-      _statusWorkThread := value;
-      PostMessage(Self.Handle, WM_STATUS_CHANGED, 0, 0);
+      _statusGuiApp := value;
+      try
+        PostMessage(Self.Handle, WM_STATUS_CHANGED, 0, 0);
+      except
+        on E: Exception do
+      end;
     end;
-  workerThread := TMyThread.Create(myJob, _rejectCallback, FORCE_SUSPEND, _onChangeStatus);
+  app := getApp(_rejectCallback, _onChangeStatus);
 
   with start_stop_btn do
   begin
@@ -82,6 +86,7 @@ begin
     Enabled := false;
     Caption := 'resume';
   end;
+
 end;
 
 procedure TMyForm.install_service_btnClick(Sender: TObject);
@@ -119,23 +124,18 @@ begin
 end;
 
 procedure TMyForm.start_stop_btnClick(Sender: TObject);
-var
-  _tempThread: TMyThread;
 begin
-  case workerThread.status of
-    TThreadStatus.created:
-      workerThread.myStart;
-    TThreadStatus.stopped:
+  case app.getStatus of
+    TStatus.created:
+      app.start;
+    TStatus.stopped:
       begin
-        _tempThread := workerThread.copy;
-        FreeAndNil(workerThread);
-        workerThread := _tempThread;
-        workerThread.myStart(RAISE_EXCEPTION_DISABLED);
+        app.restart;
       end;
-    TThreadStatus.paused:
-      workerThread.stop;
-    TThreadStatus.running:
-      workerThread.stop;
+    TStatus.paused:
+      app.stop;
+    TStatus.running:
+      app.stop;
   else
     begin
       ShowMessage('Incorrect status');
@@ -145,11 +145,11 @@ end;
 
 procedure TMyForm.resume_pause_btnClick(Sender: TObject);
 begin
-  case workerThread.status of
-    TThreadStatus.paused:
-      workerThread.myResume;
-    TThreadStatus.running:
-      workerThread.pause;
+  case app.getStatus of
+    TStatus.paused:
+      app.resume;
+    TStatus.running:
+      app.pause;
   else
     begin
       ShowMessage('Incorrect status');
@@ -220,7 +220,7 @@ end;
 
 procedure TMyForm.onStatusChanged(var Msg: TMessage);
 begin
-  if _statusWorkThread = '_' then
+  if _statusGuiApp = '_' then
   begin
     with start_stop_btn do
     begin
@@ -233,7 +233,7 @@ begin
       Caption := 'error';
     end;
   end
-  else if _statusWorkThread = 'created' then
+  else if _statusGuiApp = 'created' then
   begin
     with start_stop_btn do
     begin
@@ -246,7 +246,7 @@ begin
       Caption := 'resume';
     end;
   end
-  else if _statusWorkThread = 'stopped' then
+  else if _statusGuiApp = 'stopped' then
   begin
     with start_stop_btn do
     begin
@@ -259,7 +259,7 @@ begin
       Caption := 'resume';
     end;
   end
-  else if _statusWorkThread = 'paused' then
+  else if _statusGuiApp = 'paused' then
   begin
     with start_stop_btn do
     begin
@@ -272,7 +272,7 @@ begin
       Caption := 'resume';
     end;
   end
-  else if _statusWorkThread = 'running' then
+  else if _statusGuiApp = 'running' then
   begin
     with start_stop_btn do
     begin
@@ -286,13 +286,8 @@ begin
     end;
   end;
 
-  status_lbl.Caption := 'status: ' + _statusWorkThread;
+  status_lbl.Caption := 'status: ' + _statusGuiApp;
   Vcl.Forms.Application.ProcessMessages;
-end;
-
-procedure TMyForm.FormDestroy(Sender: TObject);
-begin
-  FreeAndNil(workerThread);
 end;
 
 end.

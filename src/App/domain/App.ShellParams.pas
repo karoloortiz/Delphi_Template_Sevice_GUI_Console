@@ -1,9 +1,9 @@
-unit Application.ShellParams;
+unit App.ShellParams;
 
 interface
 
 uses
-  Application.Env,
+  App.Env,
   KLib.Constants, KLib.Generic.ShellParams, KLib.Generic.Attributes;
 
 const
@@ -58,7 +58,8 @@ type
     [
       ParamNameAttribute(DEFAULTS_FILE_PARAMETER_NAME),
       DefaultValueAttribute('settings.ini'),
-      SettingStringDequoteAttribute
+      SettingStringDequoteAttribute,
+      ValidateFullPathAttribute
       ]
     defaults_file: string;
 

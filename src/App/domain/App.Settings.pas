@@ -1,4 +1,4 @@
-unit Application.Settings;
+unit App.Settings;
 
 interface
 
@@ -12,11 +12,15 @@ type
     ]
   TSettingsIni = record
   public
+    //App.ThreadVersion
     [SectionNameAttribute('job')]
     [DefaultValueAttribute('log.txt')]
     filename: string;
     [DefaultValueAttribute('100')]
     sleep_time: integer;
+    //App.HttpServerVersion
+    [DefaultValueAttribute('8000')]
+    port: integer;
   end;
 
 var
@@ -25,7 +29,8 @@ var
 implementation
 
 uses
-  Application.ShellParams,
+  App.ShellParams,
+  KLib.Windows,
   System.SysUtils;
 
 initialization

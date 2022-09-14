@@ -1,4 +1,4 @@
-unit Application.Env;
+unit App.Env;
 
 interface
 
@@ -20,7 +20,7 @@ var
 implementation
 
 uses
-  Application, Application.ShellParams,
+  App, App.ShellParams,
   KLib.Windows, KLib.Utils;
 
 function getExecutionMode: TExecutionMode;
@@ -67,17 +67,8 @@ end;
 runServiceParams.clear;
 with runServiceParams do
 begin
-  executorMethod := myJob;
   eventLogDisabled := false;
-  rejectCallback := procedure(msg: string)
-    var
-      _fileName: string;
-      _logMessage: string;
-    begin
-      _fileName := getCombinedPathWithCurrentDir('log.txt');
-      _logMessage := 'ERROR -> ' + msg;
-      appendToFile(_fileName, _logMessage, FORCE_CREATION);
-    end;
+  rejectCallback := serviceRejectCallback;
   applicationName := APPLICATION_NAME;
   installParameterName := INSTALL_PARAMETER_NAME;
 end;

@@ -24,23 +24,15 @@ implementation
 
 
 uses
-  Application,
+  App,
   KLib.Utils, KLib.Windows, KLib.Constants;
 
 procedure TMyMainService.ServiceCreate(Sender: TObject);
 begin
   inherited;
-  executorMethod := myjob;
+  Self.serviceApp := getApp;
   eventLogDisabled := false;
-  rejectCallback := procedure(msg: string)
-    var
-      _fileName: string;
-      _logMessage: string;
-    begin
-      _fileName := getCombinedPathWithCurrentDir('log.txt');
-      _logMessage := 'ERROR -> ' + msg;
-      appendToFile(_fileName, _logMessage, FORCE_CREATION);
-    end;
+  rejectCallback := serviceRejectCallback;
 end;
 
 end.

@@ -112,7 +112,7 @@ object MyForm: TMyForm
       Top = 210
       Width = 246
       Height = 17
-      Caption = 'Manage only application services'
+      Caption = 'Manage only my application services'
       Checked = True
       State = cbChecked
       TabOrder = 3

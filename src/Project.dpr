@@ -53,8 +53,14 @@ uses
 
 
 var
+  //############################################################################
+  // SELECT THREAD OR HTTPSERVER VERSION
+  // TEMPLATE OF APPLICATIONS
+  //----------------------------------------------------------------------------
   //  _App: App.ThreadVersion.TApp;
   _App: App.HttpServerVersion.TApp;
+  //----------------------------------------------------------------------------
+  //############################################################################
 
 begin
   case executionMode of
@@ -106,10 +112,7 @@ begin
           try
             _App.start;
             Writeln('App running...');
-            while True do
-            begin
-              waitForMultiple(_App.getHandle);
-            end;
+            _App.waitUntilIsRunning;
           except
             on E: Exception do
             begin

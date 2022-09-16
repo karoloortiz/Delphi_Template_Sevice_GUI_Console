@@ -24,7 +24,7 @@ implementation
 
 
 uses
-  App,
+  App, App.Env, App.ShellParams,
   KLib.Utils, KLib.Windows, KLib.Constants;
 
 procedure TMyMainService.ServiceCreate(Sender: TObject);
@@ -33,6 +33,8 @@ begin
   Self.serviceApp := getApp;
   eventLogDisabled := false;
   rejectCallback := serviceRejectCallback;
+  applicationName := APPLICATION_NAME;
+  installParameterName := INSTALL_PARAMETER_NAME;
 end;
 
 end.

@@ -55,8 +55,8 @@ executionMode := getExecutionMode;
 installServiceParams.clear;
 with installServiceParams do
 begin
-  silent := ApplicationShellParams.silent;
-  serviceName := ApplicationShellParams.serviceName;
+  silent := shellParamsApp.silent;
+  serviceName := shellParamsApp.serviceName;
   regkeyDescription := SERVICE_NAME_DESCRIPTION;
   applicationName := APPLICATION_NAME;
   installParameterName := INSTALL_PARAMETER_NAME;

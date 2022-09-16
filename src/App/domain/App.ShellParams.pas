@@ -3,13 +3,22 @@ unit App.ShellParams;
 interface
 
 uses
-  App.Env,
+  App.Env, App.Settings,
   KLib.Constants, KLib.Generic.ShellParams, KLib.Generic.Attributes;
 
 const
   INSTALL_PARAMETER_NAME = '--install';
   UNINSTALL_PARAMETER_NAME = '--uninstall';
   SILENT_PARAMETER_NAME = '--silent';
+  RUN_PARAMENTER_NAME = '--run';
+  //-----------------------------
+  //SETTING PARAMS
+  //App.ThreadVersion
+  FILENAME_PARAMETER_NAME = '--filename';
+  SLEEP_TIME_PARAMETER_NAME = '--sleep_time';
+  //App.HttpServerVersion
+  PORT_PARAMETER_NAME = '--port';
+  //----------------------------
   DEFAULTS_FILE_PARAMETER_NAME = '--defaults-file';
 
   HELP_PARAMETER_NAME = '--help';
@@ -23,6 +32,7 @@ const
     '--install [service name]' + #9 + 'install service' + sLineBreak +
     '--uninstall [service name]' + #9 + 'uninstall service' + sLineBreak +
     '--silent' + #9#9#9 + 'silent mode' + sLineBreak +
+    '--run' + #9#9#9 + 'run App' + sLineBreak +
     '--defaults-file path of settings file' + sLineBreak +
     sLineBreak +
     '--help or -h' + #9#9#9#9 + 'print help';
@@ -56,6 +66,32 @@ type
     silent: boolean;
 
     [
+      ParamNameAttribute(RUN_PARAMENTER_NAME),
+      DefaultValueAttribute('false')
+      ]
+    run: boolean;
+    //-------------------------------
+    //SETTING PARAMS
+    //App.ThreadVersion
+    [
+      ParamNameAttribute(FILENAME_PARAMETER_NAME),
+      DefaultValueAttribute(FILENAME_DEFAULT_VALUE)
+      ]
+    filename: string;
+
+    [
+      ParamNameAttribute(SLEEP_TIME_PARAMETER_NAME),
+      DefaultValueAttribute(SLEEP_TIME_DEFAULT_VALUE)
+      ]
+    sleep_time: integer;
+    //App.HttpServerVersion
+    [
+      ParamNameAttribute(PORT_PARAMETER_NAME),
+      DefaultValueAttribute(PORT_DEFAULT_VALUE)
+      ]
+    port: integer;
+    //-------------------------------
+    [
       ParamNameAttribute(DEFAULTS_FILE_PARAMETER_NAME),
       DefaultValueAttribute('settings.ini'),
       SettingStringDequoteAttribute,
@@ -72,13 +108,13 @@ type
   end;
 
 var
-  ApplicationShellParams: TApplicationShellParams;
+  shellParamsApp: TApplicationShellParams;
 
 implementation
 
 
 initialization
 
-ApplicationShellParams := TShellParamsGeneric.get<TApplicationShellParams>();
+shellParamsApp := TShellParamsGeneric.get<TApplicationShellParams>();
 
 end.

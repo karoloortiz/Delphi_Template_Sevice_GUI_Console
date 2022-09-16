@@ -5,12 +5,14 @@ program Project;
 
 uses
   Vcl.Forms,
-  MainForm in 'MainForm.pas' {MyForm},
+  MainForm in 'MainForm.pas' {MyForm} ,
   Vcl.SvcMgr,
-  MainService in 'MainService.pas' {MyMainService: TService},
+  MainService in 'MainService.pas' {MyMainService: TService} ,
   App.ShellParams in 'App\domain\App.ShellParams.pas',
   App.Settings in 'App\domain\App.Settings.pas',
   App.Env in 'App\domain\App.Env.pas',
+  App.ThreadVersion in 'App\domain\App.ThreadVersion.pas',
+  App.HttpServerVersion in 'App\domain\App.HttpServerVersion.pas',
   App in 'App\domain\App.pas',
   KLib.Constants in 'boundaries\KLib\Delphi_Utils_Library\KLib.Constants.pas',
   KLib.Generic in 'boundaries\KLib\Delphi_Utils_Library\KLib.Generic.pas',
@@ -33,7 +35,7 @@ uses
   KLib.XML in 'boundaries\KLib\Delphi_Utils_Library\KLib.XML.pas',
   KLib.Windows.EventLog in 'boundaries\KLib\Delphi_Utils_Library\KLib.Windows.EventLog.pas',
   KLib.MyThread in 'boundaries\KLib\Delphi_Utils_Library\KLib.MyThread.pas',
-  KLib.MyService in 'boundaries\KLib\Delphi_Utils_Library\KLib.MyService.pas' {MyService: TService},
+  KLib.MyService in 'boundaries\KLib\Delphi_Utils_Library\KLib.MyService.pas' {MyService: TService} ,
   KLib.MyServiceApplication in 'boundaries\KLib\Delphi_Utils_Library\KLib.MyServiceApplication.pas',
   KLib.MyService.Utils in 'boundaries\KLib\Delphi_Utils_Library\KLib.MyService.Utils.pas',
   KLib.Generic.Ini in 'boundaries\KLib\Delphi_Utils_Library\KLib.Generic.Ini.pas',
@@ -44,11 +46,15 @@ uses
   KLib.ServiceAppPort in 'boundaries\KLib\Delphi_Utils_Library\KLib.ServiceAppPort.pas',
   KLib.ServiceApp.ThreadAdapter in 'boundaries\KLib\Delphi_Utils_Library\KLib.ServiceApp.ThreadAdapter.pas',
   KLib.ServiceApp.HttpServerAdapter in 'boundaries\KLib\Delphi_Utils_Library\KLib.ServiceApp.HttpServerAdapter.pas',
-  App.ThreadVersion in 'App\domain\App.ThreadVersion.pas',
-  App.HttpServerVersion in 'App\domain\App.HttpServerVersion.pas';
+  Winapi.Windows,
+  System.SysUtils;
 
 {$r *.res}
 
+
+var
+  //  _App: App.ThreadVersion.TApp;
+  _App: App.HttpServerVersion.TApp;
 
 begin
   case executionMode of
@@ -59,12 +65,14 @@ begin
 {$endif}
         Vcl.Forms.Application.Initialize;
         Vcl.Forms.Application.CreateForm(TMyForm, MyForm);
-  Vcl.Forms.Application.MainFormOnTaskbar := True;
+        Vcl.Forms.Application.MainFormOnTaskbar := True;
         Vcl.Forms.Application.Run;
       end;
     TExecutionMode.service:
       begin
-        runService(getApp(), runServiceParams);
+        //with runParams
+        _App := getApp;
+        runService(_App, runServiceParams);
         //or inherited MODE
         //        if not Vcl.SvcMgr.Application.DelayInitialize or Vcl.SvcMgr.Application.Installing then
         //        begin
@@ -75,30 +83,41 @@ begin
       end;
     TExecutionMode.console:
       begin
-        myAttachConsole;
-
-        if ApplicationShellParams.serviceName <> EMPTY_STRING then
+        myAttachConsole(not shellParamsApp.run);
+        if shellParamsApp.serviceName <> EMPTY_STRING then
         begin
-          installServiceParams.serviceName := ApplicationShellParams.serviceName;
+          installServiceParams.serviceName := shellParamsApp.serviceName;
         end;
-        //################---CUSTOM PARAMS---################
-        //      if ApplicationShellParams.customParams then
-        //      begin
-        //         installServiceParams.customParameters :=  ApplicationShellParams.customParams;
-        //      end;
-        if ApplicationShellParams.install then
+        if shellParamsApp.install then
         begin
           KLib.MyService.Utils.installService(installServiceParams);
 
           Writeln('Service installed.');
         end
-        else if ApplicationShellParams.uninstall then
+        else if shellParamsApp.uninstall then
         begin
           KLib.MyService.Utils.uninstallService(installServiceParams);
 
           Writeln('Service uninstalled.');
         end
-        else if ApplicationShellParams.help then
+        else if shellParamsApp.run then
+        begin
+          _App := getApp();
+          try
+            _App.start;
+            Writeln('App running...');
+            while True do
+            begin
+              waitForMultiple(_App.getHandle);
+            end;
+          except
+            on E: Exception do
+            begin
+              Writeln(E.Message);
+            end;
+          end;
+        end
+        else if shellParamsApp.help then
         begin
           Writeln(HELP_MESSAGE);
         end

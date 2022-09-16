@@ -135,6 +135,8 @@
         <DCCReference Include="App\domain\App.ShellParams.pas"/>
         <DCCReference Include="App\domain\App.Settings.pas"/>
         <DCCReference Include="App\domain\App.Env.pas"/>
+        <DCCReference Include="App\domain\App.ThreadVersion.pas"/>
+        <DCCReference Include="App\domain\App.HttpServerVersion.pas"/>
         <DCCReference Include="App\domain\App.pas"/>
         <DCCReference Include="boundaries\KLib\Delphi_Utils_Library\KLib.Constants.pas"/>
         <DCCReference Include="boundaries\KLib\Delphi_Utils_Library\KLib.Generic.pas"/>
@@ -171,8 +173,6 @@
         <DCCReference Include="boundaries\KLib\Delphi_Utils_Library\KLib.ServiceAppPort.pas"/>
         <DCCReference Include="boundaries\KLib\Delphi_Utils_Library\KLib.ServiceApp.ThreadAdapter.pas"/>
         <DCCReference Include="boundaries\KLib\Delphi_Utils_Library\KLib.ServiceApp.HttpServerAdapter.pas"/>
-        <DCCReference Include="App\domain\App.ThreadVersion.pas"/>
-        <DCCReference Include="App\domain\App.HttpServerVersion.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -218,9 +218,13 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployClass Name="Android_LauncherIcon36">
+                <DeployClass Name="Android_NotificationIcon36">
                     <Platform Name="Android">
-                        <RemoteDir>res\drawable-ldpi</RemoteDir>
+                        <RemoteDir>res\drawable-hdpi</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="Android64">
+                        <RemoteDir>res\drawable-hdpi</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
@@ -940,13 +944,9 @@
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
-                <DeployClass Name="Android_NotificationIcon36">
+                <DeployClass Name="Android_LauncherIcon36">
                     <Platform Name="Android">
-                        <RemoteDir>res\drawable-hdpi</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="Android64">
-                        <RemoteDir>res\drawable-hdpi</RemoteDir>
+                        <RemoteDir>res\drawable-ldpi</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>

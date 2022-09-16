@@ -19,6 +19,7 @@ uses
 function getApp(rejectCallBack: TCallBack = nil; onChangeStatus: TCallBack = nil): TApp;
 
 var
+  defaultAppRejectCallback: TCallback;
   serviceRejectCallback: TCallBack;
 
 implementation
@@ -26,28 +27,29 @@ implementation
 function getApp(rejectCallBack: TCallBack = nil; onChangeStatus: TCallBack = nil): TApp;
 var
   App: TApp;
-
-  _defaultAppRejectCallback: TCallBack;
+  _rejectCallback: TCallBack;
 begin
-  _defaultAppRejectCallback := rejectCallBack;
-  if not Assigned(_defaultAppRejectCallback) then
+  _rejectCallback := rejectCallBack;
+  if not Assigned(rejectCallBack) then
   begin
-    _defaultAppRejectCallback := procedure(msg: string)
-      var
-        _fileName: string;
-        _logMessage: string;
-      begin
-        _fileName := getCombinedPathWithCurrentDir(settings.filename);
-        _logMessage := 'ERROR -> ' + msg;
-        appendToFile(_fileName, _logMessage, FORCE_CREATION);
-      end;
+    _rejectCallback := defaultAppRejectCallback;
   end;
-  App := TApp.Create(rejectCallback, onChangeStatus);
+  App := TApp.Create(_rejectCallback, onChangeStatus);
 
   Result := App;
 end;
 
 initialization
+
+defaultAppRejectCallback := procedure(msg: string)
+  var
+    _fileName: string;
+    _logMessage: string;
+  begin
+    _fileName := getCombinedPathWithCurrentDir(settings.errorApp_fileName);
+    _logMessage := 'ERROR -> ' + msg;
+    appendToFile(_fileName, _logMessage, FORCE_CREATION);
+  end;
 
 serviceRejectCallback := procedure(msg: string)
   var

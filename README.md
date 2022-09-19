@@ -1,6 +1,13 @@
 # Delphi_Template_Sevice_GUI_Console
 
-Template for Delphi applications
+Template for Delphi application with a clean architecture.
+
+You only need to personalize src/App.
+- Choose between 2 templates (you can create your custom applications implementing IServiceAppPort interface):
+  - App.HttpServerVersion for http server applications like a rest service
+  - App.ThreadVersion for a standards applications 
+
+Features:
 Windows service, GUI, console in same application.
 
 - Dependencies:
@@ -11,6 +18,7 @@ Windows service, GUI, console in same application.
 
 - USAGE:
   - Console mode:
+    - run app -> Project.exe --run
     - install service -> Project.exe --install [service_name] [--silent]
     - uninstall service ->  Project.exe --uninstall [service_name] [--silent]
     - print help >  Project.exe --help or Project.exe -h
@@ -24,3 +32,6 @@ Windows service, GUI, console in same application.
   - support services with custom names
   - support custom service params
   - you can use the application in GUI mode, console mode or as windows service
+  
+  
+  If you need support, add a star to the repository and don't hesitate to contact me at zitrokarol@gmail.com

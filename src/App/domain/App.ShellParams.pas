@@ -4,7 +4,7 @@ interface
 
 uses
   App.Env, App.Settings,
-  KLib.Constants, KLib.Generic.ShellParams, KLib.Generic.Attributes;
+  KLib.Constants, KLib.Generics.ShellParams, KLib.Generics.Attributes;
 
 const
   INSTALL_PARAMETER_NAME = '--install';
@@ -115,6 +115,6 @@ implementation
 
 initialization
 
-shellParamsApp := TShellParamsGeneric.get<TApplicationShellParams>();
+shellParamsApp := TShellParamsGenerics.get<TApplicationShellParams>();
 
 end.

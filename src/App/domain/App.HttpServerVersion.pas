@@ -19,7 +19,7 @@ type
 implementation
 
 uses
-  KLib.Generic, KLib.Generic.Attributes,
+  KLib.Generics.JSON, KLib.Generics.Attributes,
   System.Classes,
   System.JSON, System.SysUtils;
 
@@ -38,10 +38,8 @@ type
     subsub: TSubRecord2;
   end;
 
-  TRequest = record
+  TMyCustomRecord = record
   public
-    myarray: TArrayOfSubRecord2; //todo
-
     timestamp: string;
     sucess: string;
     error: string;
@@ -52,65 +50,52 @@ type
     sub: TSubRecord;
 
     subsub: TSubRecord2;
-  end;
 
-  TResponse = record
-  public
     myarray: TArrayOfSubRecord2;
-
-    timestamp: string;
-    sucess: string;
-    error: string;
-    _int: integer;
-    _double: double;
-    _boolean: boolean;
-
-    sub: TSubRecord;
-
-    subsub: TSubRecord2;
   end;
 var
   _myOnGetAnonymousMethod: TMyOnCommandGetAnonymousMethod;
-  body: string;
+  _body: string;
 begin
   _myOnGetAnonymousMethod := procedure(var AContext: TIdContext; var ARequestInfo: TIdHTTPRequestInfo; var AResponseInfo: TIdHTTPResponseInfo)
     var
       _route: string;
-      _response: TResponse;
-      _request: TRequest;
+      _response: TMyCustomRecord;
+      _request: TMyCustomRecord;
     begin
       _route := ARequestInfo.Document;
-
       if ARequestInfo.Command = 'POST' then
       begin
-        _request := TGeneric.getParsedJSON<TRequest, TSubRecord, TSubRecord2, TArrayOfSubRecord2>(body);
+        _body := getStringFromStream(ARequestInfo.PostStream);
 
-        body := getStringFromStream(ARequestInfo.PostStream);
+        _request := TJSONGenerics.getParsedJSON<TMyCustomRecord, TSubRecord, TSubRecord2, TArrayOfSubRecord2>(_body); //you need to pass every sub custom type of T
         AResponseInfo.ResponseNo := 200;
-        AResponseInfo.ContentType := 'application/json';
+        AResponseInfo.ContentType := APPLICATION_JSON_CONTENT_TYPE;
         with _response do
         begin
           timestamp := getCurrentTimeStamp;
-          sucess := 'POST' + sLineBreak + body;
+          sucess := 'POST' + sLineBreak + _body;
         end;
-        //todo create version of only one param
-        AResponseInfo.ContentText := TGeneric.getJSONAsString<TResponse, TResponse, TResponse, TResponse>(_response, NOT_IGNORE_EMPTY_STRINGS);
+        AResponseInfo.ContentText :=
+          TJSONGenerics.getJSONAsString<TMyCustomRecord, TSubRecord, TSubRecord2, TArrayOfSubRecord2>
+          (_response, NOT_IGNORE_EMPTY_STRINGS);
       end
       else if ARequestInfo.Command = 'GET' then
       begin
         AResponseInfo.ResponseNo := 200;
-        AResponseInfo.ContentType := 'application/json';
-        _response := default (TResponse);
+        AResponseInfo.ContentType := APPLICATION_JSON_CONTENT_TYPE;
+        _response := default (TMyCustomRecord);
         with _response do
         begin
           timestamp := getCurrentTimeStamp;
           sucess := 'GET';
         end;
-        AResponseInfo.ContentText := TGeneric.getJSONAsString<TResponse, TResponse, TResponse, TResponse>(_response, NOT_IGNORE_EMPTY_STRINGS);
+        AResponseInfo.ContentText := TJSONGenerics.getJSONAsString<TMyCustomRecord, TSubRecord, TSubRecord2, TArrayOfSubRecord2>
+          (_response, NOT_IGNORE_EMPTY_STRINGS);
       end;
     end;
   //
-  inherited Create(_myOnGetAnonymousMethod, settings.port, onChangeStatus);
+  inherited Create(_myOnGetAnonymousMethod, settings.port, rejectCallBack, onChangeStatus);
 end;
 
 procedure TApp.start;

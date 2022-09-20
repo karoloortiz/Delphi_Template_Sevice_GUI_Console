@@ -3,7 +3,7 @@ unit App.Settings;
 interface
 
 uses
-  KLib.Generic.Ini, KLib.Generic.Attributes; //always include
+  KLib.Generics.Ini, KLib.Generics.Attributes; //always include
 
 const
   ERRORAPP_FILENAME_DEFAULT_VALUE = 'error_app.txt';
@@ -45,7 +45,7 @@ uses
 
 initialization
 
-settings := TIniGeneric.tryGetFromFile<TSettingsIni>(shellParamsApp.defaults_file);
+settings := TIniGenerics.tryGetFromFile<TSettingsIni>(shellParamsApp.defaults_file);
 if shellParamsApp.filename <> EMPTY_STRING then
 begin
   settings.filename := shellParamsApp.filename;

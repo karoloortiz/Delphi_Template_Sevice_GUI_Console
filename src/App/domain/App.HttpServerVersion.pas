@@ -11,7 +11,7 @@ type
 
   TApp = class(THttpServerAdapter)
   public
-    constructor Create(rejectCallBack: TCallBack; onChangeStatus: TCallBack = nil);
+    constructor Create(myRejectCallBack: TCallBack; onChangeStatus: TCallBack = nil);
     procedure start; override;
     destructor Destroy; override;
   end;
@@ -23,7 +23,7 @@ uses
   System.Classes,
   System.JSON, System.SysUtils;
 
-constructor TApp.Create(rejectCallBack: TCallBack; onChangeStatus: TCallBack = nil);
+constructor TApp.Create(myRejectCallBack: TCallBack; onChangeStatus: TCallBack = nil);
 type
   TSubRecord2 = record
     subsub1: integer;
@@ -95,7 +95,7 @@ begin
       end;
     end;
   //
-  inherited Create(_myOnGetAnonymousMethod, settings.port, rejectCallBack, onChangeStatus);
+  inherited Create(_myOnGetAnonymousMethod, settings.port, myRejectCallBack, onChangeStatus);
 end;
 
 procedure TApp.start;

@@ -47,7 +47,7 @@ defaultAppRejectCallback := procedure(msg: string)
     _logMessage: string;
   begin
     _fileName := getCombinedPathWithCurrentDir(settings.errorApp_fileName);
-    _logMessage := getCurrentDateTimeWithFormattingAsString(DATETIME_FORMAT) + ' - ERROR -> ' + msg;
+    _logMessage := getCurrentDateTimeWithFormattingAsString(DATETIME_FORMAT) + ' - ERROR -> ' + getStringWithoutLineBreaks(msg);
     appendToFile(_fileName, _logMessage, FORCE_CREATION);
   end;
 
@@ -57,7 +57,7 @@ serviceRejectCallback := procedure(msg: string)
     _logMessage: string;
   begin
     _fileName := getCombinedPathWithCurrentDir('error_service.txt');
-    _logMessage := getCurrentDateTimeWithFormattingAsString(DATETIME_FORMAT) + ' - ERROR SERVICE -> ' + msg;
+    _logMessage := getCurrentDateTimeWithFormattingAsString(DATETIME_FORMAT) + ' - ERROR SERVICE -> ' + getStringWithoutLineBreaks(msg);
     appendToFile(_fileName, _logMessage, FORCE_CREATION);
   end;
 

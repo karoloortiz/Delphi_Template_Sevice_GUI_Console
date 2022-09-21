@@ -14,7 +14,7 @@ type
   private
     _fileName: string;
   public
-    constructor Create(rejectCallBack: TCallBack; onChangeStatus: TCallBack = nil);
+    constructor Create(myRejectCallBack: TCallBack; onChangeStatus: TCallBack = nil);
     procedure start; override;
     procedure Run; override;
     destructor Destroy; override;
@@ -22,9 +22,9 @@ type
 
 implementation
 
-constructor TApp.Create(rejectCallBack: TCallBack; onChangeStatus: TCallBack = nil);
+constructor TApp.Create(myRejectCallBack: TCallBack; onChangeStatus: TCallBack = nil);
 begin
-  inherited Create(rejectCallBack, onChangeStatus);
+  inherited Create(myRejectCallBack, onChangeStatus);
   _fileName := getCombinedPathWithCurrentDir(settings.filename);
 end;
 

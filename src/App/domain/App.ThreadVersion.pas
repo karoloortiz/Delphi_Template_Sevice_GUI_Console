@@ -33,7 +33,7 @@ var
   _logMessage: string;
 begin
   _logMessage := 'Message from thread: ' + TimeToStr(now);
-  appendToFile(_fileName, _logMessage, FORCE_CREATION);
+  KLib.Utils.appendToFile(_fileName, _logMessage, FORCE_CREATION);
   sleep(settings.sleep_time);
 end;
 

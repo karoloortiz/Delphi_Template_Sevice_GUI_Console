@@ -95,7 +95,7 @@ begin
       end;
     end;
   //
-  inherited Create(_myOnGetAnonymousMethod, settings.port, myRejectCallBack, onChangeStatus);
+  inherited Create(_myOnGetAnonymousMethod, settings.port, myRejectCallBack, EMPTY_STRING, onChangeStatus);
 end;
 
 procedure TApp.start;

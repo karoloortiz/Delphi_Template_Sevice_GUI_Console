@@ -136,3 +136,5 @@ test/src/*.stat
 
 # Boss dependency manager vendor folder https://github.com/HashLoad/boss
 test/src/modules/
+
+*.~*

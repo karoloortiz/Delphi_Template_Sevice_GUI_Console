@@ -3,14 +3,7 @@ unit App.Settings;
 interface
 
 uses
-  KLib.Generics.Ini, KLib.Generics.Attributes; //always include
-
-const
-  ERRORAPP_FILENAME_DEFAULT_VALUE = 'error_app.txt';
-
-  FILENAME_DEFAULT_VALUE = 'log.txt';
-  SLEEP_TIME_DEFAULT_VALUE = '100';
-  PORT_DEFAULT_VALUE = '8000';
+  KLib.Generics.Ini, KLib.Generics.Attributes; // always include
 
 type
 
@@ -20,16 +13,16 @@ type
   TSettingsIni = record
   public
     [SectionNameAttribute('app')]
-    [DefaultValueAttribute(ERRORAPP_FILENAME_DEFAULT_VALUE)]
+    [DefaultValueAttribute('error_app.txt')]
     errorApp_fileName: string;
-    //App.ThreadVersion
+    // App.ThreadVersion
     [SectionNameAttribute('job')]
-    [DefaultValueAttribute(FILENAME_DEFAULT_VALUE)]
+    [DefaultValueAttribute('log.txt')]
     filename: string;
-    [DefaultValueAttribute(SLEEP_TIME_DEFAULT_VALUE)]
+    [DefaultValueAttribute('100')]
     sleep_time: integer;
-    //App.HttpServerVersion
-    [DefaultValueAttribute(PORT_DEFAULT_VALUE)]
+    // App.HttpServerVersion
+    [DefaultValueAttribute('8000')]
     port: integer;
   end;
 
@@ -45,7 +38,7 @@ uses
 
 initialization
 
-settings := TIniGenerics.tryGetFromFile<TSettingsIni>(shellParamsApp.defaults_file);
+settings := TIniGenerics.tryGetFromFile<TSettingsIni>(shellParamsApp.setting_filename);
 if shellParamsApp.filename <> EMPTY_STRING then
 begin
   settings.filename := shellParamsApp.filename;

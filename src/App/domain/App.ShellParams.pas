@@ -11,15 +11,15 @@ const
   UNINSTALL_PARAMETER_NAME = '--uninstall';
   SILENT_PARAMETER_NAME = '--silent';
   RUN_PARAMENTER_NAME = '--run';
-  //-----------------------------
-  //SETTING PARAMS
-  //App.ThreadVersion
+  // -----------------------------
+  // SETTING PARAMS
+  // App.ThreadVersion
   FILENAME_PARAMETER_NAME = '--filename';
   SLEEP_TIME_PARAMETER_NAME = '--sleep_time';
-  //App.HttpServerVersion
+  // App.HttpServerVersion
   PORT_PARAMETER_NAME = '--port';
-  //----------------------------
-  DEFAULTS_FILE_PARAMETER_NAME = '--defaults-file';
+  // ----------------------------
+  SETTINGS_FILENAME_PARAMETER_NAME = '--settings-filename';
 
   HELP_PARAMETER_NAME = '--help';
   HELP_PARAMETER_SHORT_NAME = '-h';
@@ -33,7 +33,7 @@ const
     '--uninstall [service name]' + #9 + 'uninstall service' + sLineBreak +
     '--silent' + #9#9#9 + 'silent mode' + sLineBreak +
     '--run' + #9#9#9 + 'run App' + sLineBreak +
-    '--defaults-file path of settings file' + sLineBreak +
+    '--settings-filename path of settings file' + sLineBreak +
     sLineBreak +
     '--help or -h' + #9#9#9#9 + 'print help';
 
@@ -70,41 +70,37 @@ type
       DefaultValueAttribute('false')
       ]
     run: boolean;
-    //-------------------------------
-    //SETTING PARAMS
-    //App.ThreadVersion
-    [
-      ParamNameAttribute(FILENAME_PARAMETER_NAME),
-      DefaultValueAttribute(FILENAME_DEFAULT_VALUE)
-      ]
-    filename: string;
-
-    [
-      ParamNameAttribute(SLEEP_TIME_PARAMETER_NAME),
-      DefaultValueAttribute(SLEEP_TIME_DEFAULT_VALUE)
-      ]
-    sleep_time: integer;
-    //App.HttpServerVersion
-    [
-      ParamNameAttribute(PORT_PARAMETER_NAME),
-      DefaultValueAttribute(PORT_DEFAULT_VALUE)
-      ]
-    port: integer;
-    //-------------------------------
-    [
-      ParamNameAttribute(DEFAULTS_FILE_PARAMETER_NAME),
-      DefaultValueAttribute('settings.ini'),
-      SettingStringDequoteAttribute,
-      ValidateFullPathAttribute
-      ]
-    defaults_file: string;
-
     [
       ParamNameAttribute(HELP_PARAMETER_NAME),
       ParamNameAttribute(HELP_PARAMETER_SHORT_NAME),
       DefaultValueAttribute('false')
       ]
     help: boolean;
+    // -------------------------------
+    // SETTING PARAMS
+    // App.ThreadVersion
+    [
+      ParamNameAttribute(FILENAME_PARAMETER_NAME)
+      ]
+    filename: string;
+
+    [
+      ParamNameAttribute(SLEEP_TIME_PARAMETER_NAME)
+      ]
+    sleep_time: integer;
+    // App.HttpServerVersion
+    [
+      ParamNameAttribute(PORT_PARAMETER_NAME)
+      ]
+    port: integer;
+    // -------------------------------
+    [
+      ParamNameAttribute(SETTINGS_FILENAME_PARAMETER_NAME),
+      DefaultValueAttribute('settings.ini'),
+      SettingStringDequoteAttribute,
+      ValidateFullPathAttribute
+      ]
+    setting_filename: string;
   end;
 
 var

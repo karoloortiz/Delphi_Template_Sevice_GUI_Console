@@ -42,7 +42,7 @@ uses
   KLib.ServiceApp.HttpServerAdapter in 'boundaries\KLib\Delphi_Utils_Library\KLib.ServiceApp.HttpServerAdapter.pas',
   KLib.ServiceApp.ThreadAdapter in 'boundaries\KLib\Delphi_Utils_Library\KLib.ServiceApp.ThreadAdapter.pas',
   KLib.ServiceAppPort in 'boundaries\KLib\Delphi_Utils_Library\KLib.ServiceAppPort.pas',
-  KLib.StreamWriterUTF8NoBOMEncoding in 'boundaries\KLib\Delphi_Utils_Library\KLib.StreamWriterUTF8NoBOMEncoding.pas',
+  KLib.MyEncoding in 'boundaries\KLib\Delphi_Utils_Library\KLib.MyEncoding.pas',
   KLib.Types in 'boundaries\KLib\Delphi_Utils_Library\KLib.Types.pas',
   KLib.Utils in 'boundaries\KLib\Delphi_Utils_Library\KLib.Utils.pas',
   KLib.Validate in 'boundaries\KLib\Delphi_Utils_Library\KLib.Validate.pas',
@@ -56,14 +56,14 @@ uses
 
 
 var
-  //############################################################################
+  // ############################################################################
   // SELECT THREAD OR HTTPSERVER VERSION
   // TEMPLATE OF APPLICATIONS
-  //----------------------------------------------------------------------------
-  //  _App: App.ThreadVersion.TApp;
+  // ----------------------------------------------------------------------------
+  // _App: App.ThreadVersion.TApp;
   _App: App.HttpServerVersion.TApp;
-  //----------------------------------------------------------------------------
-  //############################################################################
+  // ----------------------------------------------------------------------------
+  // ############################################################################
 
 begin
   case executionMode of
@@ -80,16 +80,16 @@ begin
       end;
     TExecutionMode.service:
       begin
-        //with runParams
+        // with runParams
         _App := getApp;
         runService(_App, runServiceParams);
-        //or inherited MODE
-        //        if not Vcl.SvcMgr.Application.DelayInitialize or Vcl.SvcMgr.Application.Installing then
-        //        begin
-        //          Vcl.SvcMgr.Application.Initialize;
-        //        end;
-        //        Vcl.SvcMgr.Application.CreateForm(TMyMainService, MyService);
-        //        Vcl.SvcMgr.Application.Run;
+        // or inherited MODE
+        // if not Vcl.SvcMgr.Application.DelayInitialize or Vcl.SvcMgr.Application.Installing then
+        // begin
+        // Vcl.SvcMgr.Application.Initialize;
+        // end;
+        // Vcl.SvcMgr.Application.CreateForm(TMyMainService, MyService);
+        // Vcl.SvcMgr.Application.Run;
       end;
     TExecutionMode.console:
       begin

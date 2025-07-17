@@ -68,7 +68,7 @@ begin
       begin
         _body := getStringFromStream(ARequestInfo.PostStream);
 
-        _request := TJSONGenerics.getParsedJSON<TMyCustomRecord, TSubRecord, TSubRecord2, TArrayOfSubRecord2>(_body); //you need to pass every sub custom type of T
+        _request := TJSONGenerics.getParsedJSON<TMyCustomRecord>(_body);
         AResponseInfo.ResponseNo := 200;
         AResponseInfo.ContentType := APPLICATION_JSON_CONTENT_TYPE;
         with _response do
@@ -77,7 +77,7 @@ begin
           sucess := 'POST' + sLineBreak + _body;
         end;
         AResponseInfo.ContentText :=
-          TJSONGenerics.getJSONAsString<TMyCustomRecord, TSubRecord, TSubRecord2, TArrayOfSubRecord2>
+          TJSONGenerics.getJSONAsString<TMyCustomRecord>
           (_response, NOT_IGNORE_EMPTY_STRINGS);
       end
       else if ARequestInfo.Command = 'GET' then
@@ -90,7 +90,7 @@ begin
           timestamp := getCurrentTimeStamp;
           sucess := 'GET';
         end;
-        AResponseInfo.ContentText := TJSONGenerics.getJSONAsString<TMyCustomRecord, TSubRecord, TSubRecord2, TArrayOfSubRecord2>
+        AResponseInfo.ContentText := TJSONGenerics.getJSONAsString<TMyCustomRecord>
           (_response, NOT_IGNORE_EMPTY_STRINGS);
       end;
     end;

@@ -24,6 +24,8 @@ uses
   System.JSON, System.SysUtils;
 
 constructor TApp.Create(myRejectCallBack: TCallBack; onChangeStatus: TCallBack = nil);
+const
+    ROUTE = '/';
 type
   TSubRecord2 = record
     subsub1: integer;
@@ -33,7 +35,7 @@ type
   TArrayOfSubRecord2 = array of TSubRecord2;
 
   TSubRecord = record
-    _sub1: string;
+    sub1: string;
 
     subsub: TSubRecord2;
   end;
@@ -54,44 +56,46 @@ type
     myarray: TArrayOfSubRecord2;
   end;
 var
-  _myOnGetAnonymousMethod: TMyOnCommandGetAnonymousMethod;
+    _myOnGetAnonymousMethod: TMyOnCommandGetAnonymousMethod;
   _body: string;
 begin
   _myOnGetAnonymousMethod := procedure(var AContext: TIdContext; var ARequestInfo: TIdHTTPRequestInfo; var AResponseInfo: TIdHTTPResponseInfo)
     var
-      _route: string;
+        _route: string;
       _response: TMyCustomRecord;
       _request: TMyCustomRecord;
     begin
       _route := ARequestInfo.Document;
       if ARequestInfo.Command = 'POST' then
       begin
-        _body := getStringFromStream(ARequestInfo.PostStream);
+        if _route.StartsWith(ROUTE) then
+        begin
+          _body := getStringFromStream(ARequestInfo.PostStream);
 
-        _request := TJSONGenerics.getParsedJSON<TMyCustomRecord>(_body);
-        AResponseInfo.ResponseNo := 200;
-        AResponseInfo.ContentType := APPLICATION_JSON_CONTENT_TYPE;
-        with _response do
-        begin
-          timestamp := getCurrentTimeStamp;
-          sucess := 'POST' + sLineBreak + _body;
+          _request := TJSONGenerics.getParsedJSON<TMyCustomRecord>(_body);
+          AResponseInfo.ResponseNo := 200;
+          AResponseInfo.ContentType := APPLICATION_JSON_CONTENT_TYPE;
+          with _response do
+          begin
+            timestamp := getCurrentTimeStamp;
+            sucess := 'POST' + sLineBreak + _body;
+          end;
+          AResponseInfo.ContentText :=
+            TJSONGenerics.getJSONAsString<TMyCustomRecord>
+            (_response, NOT_IGNORE_EMPTY_STRINGS);
         end;
-        AResponseInfo.ContentText :=
-          TJSONGenerics.getJSONAsString<TMyCustomRecord>
-          (_response, NOT_IGNORE_EMPTY_STRINGS);
-      end
-      else if ARequestInfo.Command = 'GET' then
+      end;
+      if ARequestInfo.Command = 'GET' then
       begin
-        AResponseInfo.ResponseNo := 200;
-        AResponseInfo.ContentType := APPLICATION_JSON_CONTENT_TYPE;
-        _response := default (TMyCustomRecord);
-        with _response do
+        if _route.StartsWith(ROUTE) then
         begin
-          timestamp := getCurrentTimeStamp;
-          sucess := 'GET';
+          AResponseInfo.ResponseNo := 200;
+          AResponseInfo.ContentType := APPLICATION_JSON_CONTENT_TYPE;
+          _response := default (TMyCustomRecord);
+          _response.timestamp := getCurrentTimeStamp();
+          AResponseInfo.ContentText := TJSONGenerics.getJSONAsString<TMyCustomRecord>
+            (_response, NOT_IGNORE_EMPTY_STRINGS);
         end;
-        AResponseInfo.ContentText := TJSONGenerics.getJSONAsString<TMyCustomRecord>
-          (_response, NOT_IGNORE_EMPTY_STRINGS);
       end;
     end;
   //

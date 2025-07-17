@@ -4,10 +4,11 @@ program Project;
 
 
 uses
+  madExcept,
   Vcl.Forms,
-  MainForm in 'MainForm.pas' {MyForm} ,
+  MainForm in 'MainForm.pas' {MyForm},
   Vcl.SvcMgr,
-  MainService in 'MainService.pas' {MyMainService: TService} ,
+  MainService in 'MainService.pas' {MyMainService: TService},
   App.ShellParams in 'App\domain\App.ShellParams.pas',
   App.Settings in 'App\domain\App.Settings.pas',
   App.Env in 'App\domain\App.Env.pas',
@@ -23,7 +24,6 @@ uses
   KLib.Generics.JSON in 'boundaries\KLib\Delphi_Utils_Library\KLib.Generics.JSON.pas',
   KLib.Generics in 'boundaries\KLib\Delphi_Utils_Library\KLib.Generics.pas',
   KLib.Generics.ShellParams in 'boundaries\KLib\Delphi_Utils_Library\KLib.Generics.ShellParams.pas',
-  KLib.Graphics in 'boundaries\KLib\Delphi_Utils_Library\KLib.Graphics.pas',
   KLib.Indy in 'boundaries\KLib\Delphi_Utils_Library\KLib.Indy.pas',
   KLib.IniFiles in 'boundaries\KLib\Delphi_Utils_Library\KLib.IniFiles.pas',
   KLib.ListOfThreads in 'boundaries\KLib\Delphi_Utils_Library\KLib.ListOfThreads.pas',
@@ -33,7 +33,7 @@ uses
   KLib.MyIdFTP in 'boundaries\KLib\Delphi_Utils_Library\KLib.MyIdFTP.pas',
   KLib.MyIdHTTP in 'boundaries\KLib\Delphi_Utils_Library\KLib.MyIdHTTP.pas',
   KLib.MyIdHTTPServer in 'boundaries\KLib\Delphi_Utils_Library\KLib.MyIdHTTPServer.pas',
-  KLib.MyService in 'boundaries\KLib\Delphi_Utils_Library\KLib.MyService.pas' {MyService: TService} ,
+  KLib.MyService in 'boundaries\KLib\Delphi_Utils_Library\KLib.MyService.pas' {MyService: TService},
   KLib.MyService.Utils in 'boundaries\KLib\Delphi_Utils_Library\KLib.MyService.Utils.pas',
   KLib.MyServiceApplication in 'boundaries\KLib\Delphi_Utils_Library\KLib.MyServiceApplication.pas',
   KLib.MyString in 'boundaries\KLib\Delphi_Utils_Library\KLib.MyString.pas',
@@ -74,8 +74,8 @@ begin
 {$endif}
         Vcl.Forms.Application.Initialize;
         Vcl.Forms.Application.CreateForm(TMyForm, MyForm);
-        Application.CreateForm(TMyService, MyService);
-        Vcl.Forms.Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TMyService, MyService);
+  Vcl.Forms.Application.MainFormOnTaskbar := True;
         Vcl.Forms.Application.Run;
       end;
     TExecutionMode.service:

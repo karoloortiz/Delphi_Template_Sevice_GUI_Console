@@ -92,15 +92,14 @@
         <DCC_RemoteDebug>true</DCC_RemoteDebug>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
-        <Debugger_RunParams>--run</Debugger_RunParams>
         <DCC_MapFile>3</DCC_MapFile>
         <DCC_ExeOutput>..\debug-exe\</DCC_ExeOutput>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Locale>1033</VerInfo_Locale>
-        <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
         <DCC_RemoteDebug>false</DCC_RemoteDebug>
         <BT_BuildType>Debug</BT_BuildType>
         <AppExecutionLevel>requireAdministrator</AppExecutionLevel>
+        <DCC_Define>madExcept;$(DCC_Define)</DCC_Define>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
@@ -120,6 +119,7 @@
         <AppDPIAwarenessMode>PerMonitor</AppDPIAwarenessMode>
         <AppExecutionLevel>requireAdministrator</AppExecutionLevel>
         <BT_BuildType>Debug</BT_BuildType>
+        <DCC_Define>madExcept;$(DCC_Define)</DCC_Define>
     </PropertyGroup>
     <ItemGroup>
         <DelphiCompile Include="$(MainSource)">
@@ -148,7 +148,6 @@
         <DCCReference Include="boundaries\KLib\Delphi_Utils_Library\KLib.Generics.JSON.pas"/>
         <DCCReference Include="boundaries\KLib\Delphi_Utils_Library\KLib.Generics.pas"/>
         <DCCReference Include="boundaries\KLib\Delphi_Utils_Library\KLib.Generics.ShellParams.pas"/>
-        <DCCReference Include="boundaries\KLib\Delphi_Utils_Library\KLib.Graphics.pas"/>
         <DCCReference Include="boundaries\KLib\Delphi_Utils_Library\KLib.Indy.pas"/>
         <DCCReference Include="boundaries\KLib\Delphi_Utils_Library\KLib.IniFiles.pas"/>
         <DCCReference Include="boundaries\KLib\Delphi_Utils_Library\KLib.ListOfThreads.pas"/>
@@ -198,9 +197,8 @@
         <BorlandProject>
             <Delphi.Personality>
                 <Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\dcloffice2k230.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\dclofficexp230.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
-                    <Excluded_Packages Name="C:\Users\Public\Documents\Embarcadero\Studio\17.0\Bpl\AbbreviaVCLDesign140.bpl">Abbrevia Design-time package - VCL2010</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dcloffice2k290.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dclofficexp290.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
                 </Excluded_Packages>
                 <Source>
                     <Source Name="MainSource">Project.dpr</Source>
@@ -219,6 +217,12 @@
             </Delphi.Personality>
             <Deployment Version="4">
                 <DeployFile LocalName="..\debug-exe\Project.exe" Configuration="Debug" Class="ProjectOutput"/>
+                <DeployFile LocalName="..\debug-exe\Project.exe" Configuration="Debug" Class="ProjectOutput">
+                    <Platform Name="Win32">
+                        <RemoteName>Project.exe</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployFile LocalName="..\exe\Project.exe" Configuration="Release" Class="ProjectOutput">
                     <Platform Name="Win32">
                         <RemoteName>Project.exe</RemoteName>
